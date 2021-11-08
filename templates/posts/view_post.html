@@ -1,0 +1,62 @@
+{% extends 'posts/base.html' %}
+{% block title %}{{post.title}}{% endblock title %}
+{% block post %}
+
+<h1>{{post.title}}</h1>
+<p>Написал: {{post.user}}</p>
+
+<p>{{post.text}}</p>
+{% for image in post.postimages_set.all %}
+    <img src="{{image.image.url}}" class="img-fluid" alt = "">
+{% endfor %}
+<p>
+{% if user == post.user %}
+    <a href="{% url 'post_edit' post.url %}">Редактировать обращение</a>
+{% endif %}
+</p>
+{% for comment in post.get_comment %}
+    <h2>{{comment.name}}:</h2>
+    <p>{{comment.text}}</p>
+    <a href="#CommentForm" onclick="addComment('{{ comment.user}}', '{{comment.id}}')">Ответить</a>
+    {% for com in comment.comments_set.all %}
+    <div class="media mt-5 editContent"
+        style="outline: none; cursor: inherit;">
+        <a class="pr-3" href="#">
+        </a>
+        <div class="media-body">
+            <h5 class="mt-0 editContent"
+                style="outline: none; cursor: inherit;">{{com.name}}:</h5>
+            <p class="mt-2 editContent"
+                style="outline: none; cursor: inherit;">{{com.text}} </p>
+        </div>
+    </div>
+    {% endfor %}
+{% endfor %}
+       <h3 class="editContent" style="outline: none; cursor: inherit;">
+                                    <span class="sub-tittle editContent"
+                                          style="outline: none; cursor: inherit;">{{ post.comments_set.count }}</span>Оставить отзыв</h3>
+                                <form action="{% url 'add_comment' post.id %}" method="post" class="mt-4" id="CommentForm">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="parent" id="contactparent" value="">
+                                    <p>{{ user }}</p>
+                                    <div class="form-group editContent"
+                                         style="outline: none; cursor: inherit;">
+                                        <label for="contactcomment" class="editContent"
+                                               style="outline: none; cursor: inherit;">Ваш комментарий
+                                            *</label>
+                                        <textarea class="form-control border" rows="5" name="text"
+                                                  id="contactcomment" required=""></textarea>
+                                    </div>
+                                    <button type="submit"
+                                            class="mt-3 btn btn-success btn-block py-3"
+                                            style="outline: none; cursor: inherit;">Отправить
+                                    </button>
+                                </form>
+<script>
+function addComment(name, id){
+    document.getElementById("contactparent").value = id;
+    document.getElementById("contactcomment").innerText = `${name}, `;
+}
+
+</script>
+{% endblock post %}

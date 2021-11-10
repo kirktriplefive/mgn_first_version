@@ -1,4 +1,3 @@
-import re
 from django.core.exceptions import ObjectDoesNotExist
 from django.db.models.query import QuerySet
 from django.forms.models import modelformset_factory

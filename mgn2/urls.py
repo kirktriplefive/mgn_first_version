@@ -21,6 +21,7 @@ from posts import views
 
 
 urlpatterns = [
+    path('grappelli/', include('grappelli.urls')),
     path('admin/', admin.site.urls),
     path('', include('posts.urls')),
     path('i18n/', include('django.conf.urls.i18n')),

@@ -2,35 +2,32 @@
 {% load static %}
 <html lang="ru">
 <head>
-    <!-- //Meta tag Keywords -->
     <title>{% block title %}{% endblock title %}</title>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- //Meta tag Keywords -->
-    <!-- Custom-Files -->
-    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
-    <!-- Bootstrap-Core-CSS -->
-    <!--/ Style-CSS -->
-    <link rel="stylesheet" href="{% static 'css/style.css' %}" type="text/css" media="all">
-    <!--// Style-CSS -->
-    <!-- font-awesome-icons -->
-    <link href="{% static 'css/font-awesome.css' %}" rel="stylesheet">
-    <!-- //font-awesome-icons -->
-  <!-- /Fonts -->
-    <link href="//fonts.googleapis.com/css?family=Lato:100,100i,300,300i,400,400i,700" rel="stylesheet">
-    <link href="//fonts.googleapis.com/css?family=Source+Sans+Pro:200,200i,300,300i,400,400i,600,600i,700,700i,900" rel="stylesheet">
-    <!-- //Fonts -->
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="{% static 'assets/css/main.css' %}" />
+		<noscript><link rel="stylesheet" href="{% static 'assets/css/noscript.css' %}" /></noscript>
 </head>
 
-<body>
-<div id="page" class="page">
+<body class="is-preload">
+<div id="page-wrapper">
 {% include 'include/header.html' %}
+<article id="main">
+	<header style="background-image: url({% static 'mgn-single.jpg'%});">
+		<h2>МАГНИТОГОРСК ДЛЯ ВСЕХ</h2>
+	</header>
 {% block content %}
 
 {% endblock content %}
+</article>
 {% include 'include/footer.html' %}
 </div>
-
-
+			<script src="{%static 'assets/js/jquery.min.js'%}"></script>
+			<script src="{%static 'assets/js/jquery.scrollex.min.js'%}"></script>
+			<script src="{%static 'assets/js/jquery.scrolly.min.js'%}"></script>
+			<script src="{%static 'assets/js/browser.min.js'%}"></script>
+			<script src="{%static 'assets/js/breakpoints.min.js'%}"></script>
+			<script src="{%static 'assets/js/util.js'%}"></script>
+			<script src="{%static 'assets/js/main.js'%}"></script>
 </body>
 </html>

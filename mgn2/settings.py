@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
 from pathlib import Path
-import os, sys
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -19,6 +19,10 @@ STATIC_DIR = os.path.join(BASE_DIR, 'static')
 MEDIA_DIR = os.path.join(BASE_DIR, 'media')
 PROJECT_ROOT = os.path.dirname(__file__)
 CORS_ORIGIN_ALLOW_ALL = False
+
+RECIPIENTS_EMAIL = ['kirkplat@gmail.com']   # замените на свою почту
+DEFAULT_FROM_EMAIL = 'kirkplat@gmail.com'  # замените на свою почту
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 CORS_ORIGIN_WHITELIST = (
        'http://localhost:3000',
@@ -143,7 +147,7 @@ MEDIA_URL='/media/'
 MEDIA_ROOT= os.path.join(BASE_DIR, 'media')
 MEDIAFILES_DIRS = [MEDIA_DIR]
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(PROJECT_ROOT, 'static')
+
 
 STATICFILES_DIRS = [STATIC_DIR]
 

@@ -2,48 +2,64 @@
 {% block title %}{{post.title}}{% endblock title %}
 {% block post %}
 
-<h1>{{post.title}}</h1>
-<p>Написал: {{post.user}}</p>
+<h2>{{post.title}}</h2>
+
+<h4>Написал: {{post.user}}</h4>
 
 <p>{{post.text}}</p>
 {% for image in post.postimages_set.all %}
-    <img src="{{image.image.url}}" class="img-fluid" alt = "">
+    <img src="{{image.image.url}}" class="img-fluid" style="width: 50%; " alt = "">
 {% endfor %}
 <p>
 {% if user == post.user %}
-    <a href="{% url 'post_edit' post.url %}">Редактировать обращение</a>
+<button onclick="window.location.href = '{% url 'post_edit' post.url %}';">Редактировать обращение</button>
 {% endif %}
+{% if request.user.is_superuser %}
+<button onclick="window.location.href = '{% url 'contact' post.url %}';">Ответить на электронную почту</button>
+<button onclick="window.location.href = '{% url 'delete' post.url %}';" style="color: red; ">Удалить обращение</button>
+{% endif %}
+<p>Комментариев: {{ post.comments_set.count }}</p>
 </p>
+<hr>
+<h2>Комментарии</h2>
 {% for comment in post.get_comment %}
-    <h2>{{comment.name}}:</h2>
+    <h4>{{comment.name}}:</h4>
     <p>{{comment.text}}</p>
-    <a href="#CommentForm" onclick="addComment('{{ comment.user}}', '{{comment.id}}')">Ответить</a>
+    <button onclick="addComment('{{ comment.user}}', '{{comment.id}}')">Ответить</button>
+    {% if request.user.is_superuser %}
+    <button onclick="window.location.href = '{% url 'delete_comment' comment.id %}';" style="color: red; ">Удалить комментарий</button>
+    {% endif %}
     {% for com in comment.comments_set.all %}
     <div class="media mt-5 editContent"
-        style="outline: none; cursor: inherit;">
+        style="outline: none; cursor: inherit; padding-left:20px;">
         <a class="pr-3" href="#">
         </a>
-        <div class="media-body">
-            <h5 class="mt-0 editContent"
-                style="outline: none; cursor: inherit;">{{com.name}}:</h5>
+        <div class="media-body" style="padding-top:35px">
+            <h6 class="mt-0 editContent"
+                style="outline: none; cursor: inherit;">{{com.name}}:</h6>
             <p class="mt-2 editContent"
                 style="outline: none; cursor: inherit;">{{com.text}} </p>
         </div>
     </div>
+    {% if request.user.is_superuser %}
+    <button onclick="window.location.href = '{% url 'delete_comment' com.id %}';" style="color: red; ">Удалить комментарий</button>
+    {% endif %}
     {% endfor %}
+ 
 {% endfor %}
-       <h3 class="editContent" style="outline: none; cursor: inherit;">
+<hr>
+       <h3 class="editContent" style="outline: none; cursor: inherit; margin-top: 50px">
                                     <span class="sub-tittle editContent"
-                                          style="outline: none; cursor: inherit;">{{ post.comments_set.count }}</span>Оставить отзыв</h3>
+                                          style="outline: none; cursor: inherit;"></span>Оставить комментарий</h3>
                                 <form action="{% url 'add_comment' post.id %}" method="post" class="mt-4" id="CommentForm">
                                     {% csrf_token %}
                                     <input type="hidden" name="parent" id="contactparent" value="">
-                                    <p>{{ user }}</p>
+                                    <p>От {{ user }}</p>
                                     <div class="form-group editContent"
                                          style="outline: none; cursor: inherit;">
                                         <label for="contactcomment" class="editContent"
                                                style="outline: none; cursor: inherit;">Ваш комментарий
-                                            *</label>
+                                            </label>
                                         <textarea class="form-control border" rows="5" name="text"
                                                   id="contactcomment" required=""></textarea>
                                     </div>

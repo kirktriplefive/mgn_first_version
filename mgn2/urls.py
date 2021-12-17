@@ -23,8 +23,16 @@ from posts import views
 urlpatterns = [
     path('grappelli/', include('grappelli.urls')),
     path('admin/', admin.site.urls),
+    path('delete/<slug:slug>/', views.delete, name='delete'),
+    path('delete_comment/<int:pk>/', views.delete_comment, name='delete_comment'),
+    path("contact/<slug:slug>/", views.contact_view, name='contact'),
+    path('success/', views.success_view, name='success'),
+    path('api/', include('posts.api.urls')),
     path('', include('posts.urls')),
     path('i18n/', include('django.conf.urls.i18n')),
+    path('index', views.index),
+    path('post/<int:id>/', views.post_detail)
+    
 ]
 
 if settings.DEBUG:
@@ -32,5 +40,6 @@ if settings.DEBUG:
     
 urlpatterns += [
     path('accounts/', include('django.contrib.auth.urls')),
-    path('accounts/', include('accounts.urls'))
+    path('accounts/', include('accounts.urls')),
+
 ]
